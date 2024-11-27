@@ -7,21 +7,29 @@ require_once("students_logic.php");
             <table class="table mt-3 col">
                 <thead>
                 <tr>
-                    <th scope="col">  </th>
+                    <th scope="col"></th>
                     <?php foreach($subjects as $subject): ?>
-                    <th scope="col"><?=htmlspecialchars($subject)?></th>
+                        <th scope="col"><?=htmlspecialchars($subject)?></th>
                     <?php endforeach; ?>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach($students as $student):?>
                     <tr>
-                        <td><?=htmlspecialchars($student)?></td>
+                        <td>
+                            <?=htmlspecialchars($student)?>
+                        </td>
                         <?php foreach($subjects as $subject): ?>
-                            <td></td>
-                        <?php endforeach; ?>
+                            <td>
+                                <?php foreach($data as $grade): ?>
+                                    <?php if ($grade[0] === $student && $grade[1] === $subject): ?>
+                                        <?=htmlspecialchars($grade[2])?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </td>
+                        <?php endforeach;?>
                     </tr>
-                <?php endforeach;?>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
