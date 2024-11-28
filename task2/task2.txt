@@ -1,0 +1,3 @@
+delete from categories c where c.id not in (select category_id from products)
+delete from products p where p.id not in (select product_id from availabilities)
+delete from stocks s where s.id not in (select stock_id from availabilities)
