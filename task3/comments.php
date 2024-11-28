@@ -13,7 +13,7 @@
             <div class="col-6">
                 <form method="post" action="">
                     <textarea class="form-control col mt-5" name="comment_content" placeholder="Введите комментарий..."></textarea>
-                    <input class="btn btn-primary mt-2" type="submit">
+                    <input class="btn btn-primary mt-2" type="submit" value="Отправить">
                 </form>
             </div>
             <?php foreach ($stmt as $comment): ?>
