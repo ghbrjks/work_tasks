@@ -10,7 +10,7 @@ $data = [
 ];
 
 $res = [];
-// выделение студентов
+// выделение студентов и предметов
 $students=array_unique((array_column($data, 0)));
 $subjects=array_unique((array_column($data, 1)));
 
@@ -25,12 +25,12 @@ for ($i = 0; $i < count($data)-1; $i++) {
     }
 }
 
-// формирование двумерного массива
+// формирование двумерного массива для проверки комбинаций студент-предмет
 foreach ($data as $entry){
     [$student, $subject, $grade] = $entry;
     $check[$student][$subject] = $grade;
 }
-// заполнение массива всеми комбинациями студент-предмет (в качестве оценки проставляется пустая строка)
+// заполнение массива data всеми комбинациями студент-предмет (в качестве оценки проставляется пустая строка)
 foreach ($students as $student_iter){
     foreach ($subjects as $subject_iter){
         if (!isset($check[$student_iter][$subject_iter])){
