@@ -23,20 +23,25 @@ function get_clickbait($text){
 
         $node_html = $dom->saveHTML($node);
         $node_text = strip_tags($node_html);
+        // разделение слов по пробелам и тире
         $words = preg_split("/[\s\-]+/u", $node_text, -1, PREG_SPLIT_NO_EMPTY);
         $words_capacity = $words_limit - $words_counter;
 
         if(count($words) <= $words_capacity){
+            // если слов меньше лимита добавляется весь узел
             $res .= $node_html;
             $words_counter += count($words);
         }
         else{
+            // если слов больше лимита, то лишние слова обрезаются
             $trimmed_words = array_slice($words, 0, $words_capacity);
+            // добавление многоточия к последнему слову
             $last_word = array_pop($trimmed_words);
             $last_word .= '...';
             $trimmed_words[] = $last_word;
             $trimmed_text = implode(' ', $trimmed_words);
 
+            // формирование нового узла
             $new_node = $dom->createElement('p');
             $new_node->setAttribute('class', $node->getAttribute('class'));
             $new_node->nodeValue = $trimmed_text;
