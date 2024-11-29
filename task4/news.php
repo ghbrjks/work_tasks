@@ -7,6 +7,6 @@
     <title>Новости</title>
 </head>
 <body>
-<?php get_clickbait($text)?>
+<?php echo get_clickbait($text)?>
 </body>
 </html>

@@ -14,13 +14,37 @@ TXT;
 function get_clickbait($text){
     $dom = new DOMDocument();
     @$dom->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
-    $word_counter = 0;
+    $words_counter = 0;
     $res = '';
-    foreach ($dom->getElementsByTagName('p') as $node) {
-        while ($word_counter < 30) {
-            $word_counter+=count(str_split($node->textContent));
-            $res .= $node->textContent;
+    $words_limit = 29;
+
+    foreach($dom->getElementsByTagName('p') as $node){
+        if ($words_counter >= $words_limit){ break; }
+
+        $node_html = $dom->saveHTML($node);
+        $node_text = strip_tags($node_html);
+        $words = preg_split("/[\s\-]+/u", $node_text, -1, PREG_SPLIT_NO_EMPTY);
+        $words_capacity = $words_limit - $words_counter;
+
+        if(count($words) <= $words_capacity){
+            $res .= $node_html;
+            $words_counter += count($words);
+        }
+        else{
+            $trimmed_words = array_slice($words, 0, $words_capacity);
+            $last_word = array_pop($trimmed_words);
+            $last_word .= '...';
+            $trimmed_words[] = $last_word;
+            $trimmed_text = implode(' ', $trimmed_words);
+
+            $new_node = $dom->createElement('p');
+            $new_node->setAttribute('class', $node->getAttribute('class'));
+            $new_node->nodeValue = $trimmed_text;
+
+            $res .= $dom->saveHTML($new_node);
+            $words_counter += $words_capacity;
+            break;
         }
     }
-    echo ($res . '...');
+    return $res;
 }
