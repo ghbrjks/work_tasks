@@ -1,3 +1,9 @@
-delete from categories c where c.id not in (select category_id from products)
-delete from products p where p.id not in (select product_id from availabilities)
+--удаление складов без товаров--
+delete from availabilities where stock_id in (select stock_id from availabilities group by stock_id having sum(amount)=0)
 delete from stocks s where s.id not in (select stock_id from availabilities)
+
+-- удаление групп без товаров--
+delete from categories c where c.id not in (select category_id from products)
+
+--удаление товаров без наличия--
+delete from products p where p.id not in (select product_id from availabilities)
